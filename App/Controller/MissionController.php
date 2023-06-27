@@ -2,6 +2,13 @@
 
 namespace App\Controller;
 
+use App\Repository\MissionAgentRepository;
+use App\Repository\MissionContactRepository;
+use App\Repository\MissionHideoutRepository;
+use App\Repository\MissionRepository;
+use App\Repository\MissionTargetRepository;
+use App\Repository\SpecialityRepository;
+
 class MissionController extends Controller {
     public function route() :void {
 
@@ -42,21 +49,62 @@ class MissionController extends Controller {
     }
 
     protected function list() {
+
+        $missionRepository = new MissionRepository();
+        $missions = $missionRepository->findAll();
+        
         $params = [
-            'mission1'=>'Tempete du désert',
-            'mission2'=>'Tango Charly',
-            'mission3'=>'Fly me',
+            'missions' => $missions,
         ];
 
         $this->render('/templates/missions/list.php', $params);
     }
 
     protected function show() {
-        $params = [
-            'mission'=>'Tango Charly',
-        ];
 
-        $this->render('/templates/missions/show.php', $params);
+        try {
+            if(isset($_GET['id'])) {
+                
+                $id = (int)$_GET['id'];
+                
+                $missionRepository = new MissionRepository();
+                $mission = $missionRepository->findOneById($id);
+
+                $specialityId = $mission->getSpeciality_id();
+                $specialityRepository = new SpecialityRepository();
+                $speciality = $specialityRepository->findOneById($specialityId);
+
+                $missionAgentRepo = new MissionAgentRepository();
+                $agents = $missionAgentRepo->findAgentsByMissionId($id);
+
+                $missionContactRepo = new MissionContactRepository();
+                $contacts = $missionContactRepo->findContactsByMissionId($id);
+
+                $missionHideoutRepo = new MissionHideoutRepository();
+                $hideouts = $missionHideoutRepo->findHideoutsByMissionId($id);
+
+                $missionTargetRepo = new MissionTargetRepository();
+                $targets = $missionTargetRepo->findTargetsByMissionId($id);
+
+                $params = [
+                    'mission' => $mission,
+                    'speciality' => $speciality,
+                    'agents' => $agents,
+                    'contacts' => $contacts,
+                    'hideouts' => $hideouts,
+                    'targets' => $targets,
+                ];
+        
+                $this->render('/templates/missions/show.php', $params);
+
+            } else {
+                throw new \Exception('id introuvable');
+            }
+        } catch (\Exception $e) {
+            $this->render('/templates/error.php', [
+                'error'=> $e->getMessage(),
+            ]);
+        }
     }
 
     protected function delete() {

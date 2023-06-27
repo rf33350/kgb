@@ -3,8 +3,6 @@
 namespace App\Repository;
 
 use App\Db\Mysql;
-use App\Entity\AgentSpeciality;
-use App\Entity\Speciality;
 use App\Repository\SpecialityRepository;
 
 class AgentSpecialityRepository {

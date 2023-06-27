@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\MissionRepository;
+
 class HomeController extends Controller {
     public function route() :void {
         if (isset($_GET['action'])) {
@@ -21,10 +23,11 @@ class HomeController extends Controller {
 
     protected function home() {
 
+        $missionRepository = new MissionRepository();
+        $missions = $missionRepository->findAll();
+        
         $params = [
-            'test'=>'abc',
-            'test2'=>'def',
-            'test3'=>'ghi',
+            'missions' => $missions,
         ];
 
         $this->render('/templates/pages/home.php', $params);
