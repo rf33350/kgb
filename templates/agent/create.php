@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-        <label for="specialities[]">Spécialité 1 :</label>
+        <label for="specialities[]">Spécialité :</label>
         <select name="specialities[]" id="specialities" class="form-control">
             <option value="">Sélectionnez une spécialité</option>
             <?php foreach ($specialities as $speciality) : ?>
@@ -42,19 +42,14 @@
         </select>
     </div>
 
-    <div class="form-group">
-        <label for="specialities[]">Spécialité 2 :</label>
-        <select name="specialities[]" id="specialities" class="form-control">
-            <option value="">Sélectionnez une spécialité</option>
-            <?php foreach ($specialities as $speciality) : ;?>
-                
-                <option value="<?php echo $speciality->getId(); ?>"><?php echo $speciality->getTitle(); ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+    <div id="specialiteContainer"></div>
 
+    <br>
+    <button type="button" class="btn btn-secondary" onclick="ajouterSpecialite()">Ajout d'une spécialité</button>
+    <br>
     <br>
     <input type="submit" value="Créer agent" class="btn btn-primary">
 </form>
 
+<script src="/kgb/assets/js/AddSpecialite.js"></script> 
 <?php require_once _ROOTPATH_.'/templates/footer.php'; ?>

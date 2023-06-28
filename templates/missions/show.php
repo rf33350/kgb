@@ -30,12 +30,19 @@
                 
 
 
-                <a href="index.php?controller=mission&action=update&id=<?=$mission->getId() ;?>" class="btn btn-warning">Modifier</a>
-                <br>
-                <br>
-                <a href="index.php?controller=mission&action=delete&id=<?=$mission->getId() ;?>" class="btn btn-danger">Supprimer</a>
-                <br>
-                <br>
+                
+                <?php 
+                if (isset($_SESSION['user'])) {
+                    echo '
+                    <a href="index.php?controller=mission&action=update&id=<?=$mission->getId() ;?>" class="btn btn-warning">Modifier</a>
+                    <br>
+                    <br>
+                    <a href="index.php?controller=mission&action=delete&id=<?=$mission->getId() ;?>" class="btn btn-danger">Supprimer</a>
+                    <br>
+                    <br>
+                    ';
+                }
+                ?>
                 <a href="index.php?controller=mission&action=list" class="btn btn-primary">Retour à la liste</a>
             </div>
 

@@ -34,6 +34,33 @@ class MissionRepository {
         return $missionEntity;
     }
 
+    public function findOneByTitle(int $title){
+        
+        $mysql = Mysql::getIsntance();
+        $pdo = $mysql->getPDO();
+        $query = $pdo->prepare('SELECT * FROM mission WHERE title = :title');
+        $query->bindValue(':title', $title, $pdo::PARAM_INT);
+        $query->execute();
+        $mission = $query->fetch();
+
+        $startDate = new \DateTime($mission[5]);
+        $endDate = new \DateTime($mission[6]);
+
+        $missionEntity = new Mission();
+        $missionEntity->setId($mission[0]);
+        $missionEntity->setTitle($mission[1]);
+        $missionEntity->setDescription($mission[2]);
+        $missionEntity->setCodeName($mission[3]);
+        $missionEntity->setCountry($mission[4]);
+        $missionEntity->setStartDate($startDate);
+        $missionEntity->setEndDate($endDate);
+        $missionEntity->setType_id($mission[7]);
+        $missionEntity->setStatus_id($mission[8]);
+        $missionEntity->setSpeciality_id($mission[9]);
+
+        return $missionEntity;
+    }
+
     public function findAll(){
         
         $mysql = Mysql::getIsntance();

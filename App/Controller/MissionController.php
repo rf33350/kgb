@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Mission;
+use App\Repository\AgentRepository;
 use App\Repository\MissionAgentRepository;
 use App\Repository\MissionContactRepository;
 use App\Repository\MissionHideoutRepository;
 use App\Repository\MissionRepository;
 use App\Repository\MissionTargetRepository;
 use App\Repository\SpecialityRepository;
+use App\Repository\StatusRepository;
+use App\Repository\TypeRepository;
 
 class MissionController extends Controller {
     public function route() :void {
@@ -116,7 +120,70 @@ class MissionController extends Controller {
     }
 
     protected function create() {
-        var_dump('On crée la mission');
+        try {
+            if (isset($_POST['createMission'])) {
+                
+                $mission = new Mission();
+
+                $mission->setTitle($_POST['title']);
+                $mission->setDescription($_POST['description']);
+                $mission->setCodeName($_POST['codeName']);
+                $mission->setCountry($_POST['country']);
+                $mission->setStartDate($_POST['startDate']);
+                $mission->setEndDate($_POST['endDate']);
+                $mission->setType_id($_POST['type']);
+                $mission->setStatus_id($_POST['status']);
+                $mission->setSpeciality_id($_POST['speciality']);
+                
+                $missionRepository = new MissionRepository();
+                $missionRepository->create($mission);
+                
+                $createdMission = new Mission();
+                $createdMission = $missionRepository->findOneByTitle($_POST['title']);
+                $createdMissionId = $createdMission->getId();
+
+                $selectedAgents = $_POST['agents'];
+
+                if(!is_null($selectedAgents)) {
+
+                    foreach ($selectedAgents as $selectedAgent) {
+                        $mission_agentRepo = new MissionAgentRepository();
+                        $mission_agentRepo->create($createdMissionId, $selectedAgent);
+                    }
+                    
+                }
+                
+                return $this->list();
+
+            } else {
+
+                $typeRepo = new TypeRepository();
+                $types = $typeRepo->findAll();
+
+                $statusRepo = new StatusRepository();
+                $statuses = $statusRepo->findAll();
+
+                $specialityRepo = new SpecialityRepository;
+                $specialities = $specialityRepo->findAll();
+
+                $agentRepo = new AgentRepository();
+                $agents = $agentRepo->findAll();
+
+                $params = [
+                    'specialities' => $specialities,
+                    'types' => $types,
+                    'statuses' => $statuses,
+                    'agents' => $agents,
+                ];
+                
+                $this->render('/templates/missions/create.php', $params);
+            }
+        } catch (\Exception $e) {
+            $this->render('/templates/error.php', [
+                'error' => $e->getMessage(),
+            ]);
+        }
+    
     }
 
 }

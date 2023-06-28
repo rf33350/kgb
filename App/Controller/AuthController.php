@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\MissionRepository;
 use App\Repository\UserRepository;
 
 class AuthController extends Controller {
@@ -55,11 +56,11 @@ class AuthController extends Controller {
                         session_start();
                         $_SESSION['user'] = $user;
                         
-                        /*header("Location: index.php?controller=page&action=home");*/
+                        $missionRepository = new MissionRepository();
+                        $missions = $missionRepository->findAll();
+                        
                         $params = [
-                            'test'=>'abc',
-                            'test2'=>'def',
-                            'test3'=>'ghi',
+                            'missions' => $missions,
                         ];
                 
                         $this->render('/templates/pages/home.php', $params);
