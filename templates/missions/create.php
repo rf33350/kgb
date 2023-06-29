@@ -34,7 +34,7 @@
 
     <div class="form-group">
         <label for="endDate">Date de fin :</label>
-        <input type="date" name="endDate" id="endDate" required class="form-control">
+        <input type="date" name="endDate" id="endDate"  class="form-control">
     </div>
 
     <div class="form-group">
@@ -76,15 +76,60 @@
             <?php endforeach; ?>
         </select>
     </div>
-    
     <div id="agentContainer"></div>
-
     <br>
     <button type="button" class="btn btn-secondary" onclick="ajouterAgent()">Ajout d'un Agent</button>
     <br>
+
     <br>
-    <input type="submit" value="Créer agent" class="btn btn-primary">
+    <div class="form-group">
+        <label for="contacts[]">Contact :</label>
+        <select name="contacts[]" id="contacts" class="form-control">
+            <option value="">Sélectionnez un contact</option>
+            <?php foreach ($contacts as $contact) : ?>
+                <option value="<?php echo $contact->getId(); ?>"><?php echo $contact->getFirstName().' '.$contact->getLastName(); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div id="contactContainer"></div>
+    <br>
+    <button type="button" class="btn btn-secondary" onclick="ajouterContact()">Ajout d'un contact</button>
+    <br>
+    <br>
+    <div class="form-group">
+        <label for="targets[]">Cible :</label>
+        <select name="targets[]" id="targets" class="form-control">
+            <option value="">Sélectionnez une cible</option>
+            <?php foreach ($targets as $target) : ?>
+                <option value="<?php echo $target->getId(); ?>"><?php echo $target->getFirstName().' '.$target->getLastName(); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div id="targetContainer"></div>
+    <br>
+    <button type="button" class="btn btn-secondary" onclick="ajouterTarget()">Ajout d'une cible</button>
+    <br>
+    <br>
+    <div class="form-group">
+        <label for="hideouts[]">Planques :</label>
+        <select name="hideouts[]" id="hideouts" class="form-control">
+            <option value="">Sélectionnez une planque</option>
+            <?php foreach ($hideouts as $hideout) : ?>
+                <option value="<?php echo $hideout->getId(); ?>"><?php echo $hideout->getAddress().', '.$hideout->getCountry(); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div id="hideoutContainer"></div>
+    <br>
+    <button type="button" class="btn btn-secondary" onclick="ajouterHideout()">Ajout d'une planque</button>
+    <br>
+    <br>
+    <input type="submit" value="Créer mission" class="btn btn-primary">
 </form>
 
 <script src="/kgb/assets/js/AddAgent.js"></script> 
+<script src="/kgb/assets/js/AddContact.js"></script>
+<script src="/kgb/assets/js/AddTarget.js"></script>
+<script src="/kgb/assets/js/AddHideout.js"></script>
+
 <?php require_once _ROOTPATH_.'/templates/footer.php'; ?>

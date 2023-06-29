@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Mission;
 use App\Db\Mysql;
+use PDO;
 
 class MissionRepository {
 
@@ -34,12 +35,12 @@ class MissionRepository {
         return $missionEntity;
     }
 
-    public function findOneByTitle(int $title){
+    public function findOneByTitle(string $title){
         
         $mysql = Mysql::getIsntance();
         $pdo = $mysql->getPDO();
         $query = $pdo->prepare('SELECT * FROM mission WHERE title = :title');
-        $query->bindValue(':title', $title, $pdo::PARAM_INT);
+        $query->bindValue(':title', $title, $pdo::PARAM_STR);
         $query->execute();
         $mission = $query->fetch();
 
@@ -141,15 +142,20 @@ class MissionRepository {
 
     $query = $pdo->prepare('INSERT INTO mission (title, description, codeName, country, startDate, endDate, type_id, status_id, speciality_id) VALUES (:title, :description, :codeName, :country, :startDate, :endDate, :type_id, :status_id, :speciality_id)');
     
-    $query->bindValue(':title', $mission->getTitle(), $pdo::PARAM_STR);
-    $query->bindValue(':description', $mission->getDescription(), $pdo::PARAM_STR);
-    $query->bindValue(':codeName', $mission->getCodeName(), $pdo::PARAM_STR);
-    $query->bindValue(':country', $mission->getCountry(), $pdo::PARAM_STR);
-    $query->bindValue(':startDate', $mission->getStartDate()->format('Y-m-d'), $pdo::PARAM_STR);
-    $query->bindValue(':endDate', $mission->getEndDate()->format('Y-m-d'), $pdo::PARAM_STR);
-    $query->bindValue(':type_id', $mission->getType_id(), $pdo::PARAM_INT);
-    $query->bindValue(':status_id', $mission->getStatus_id(), $pdo::PARAM_INT);
-    $query->bindValue(':speciality_id', $mission->getSpeciality_id(), $pdo::PARAM_INT);
+    $query->bindValue(':title', $mission->getTitle(), PDO::PARAM_STR);
+    $query->bindValue(':description', $mission->getDescription(), PDO::PARAM_STR);
+    $query->bindValue(':codeName', $mission->getCodeName(), PDO::PARAM_STR);
+    $query->bindValue(':country', $mission->getCountry(), PDO::PARAM_STR);
+    $query->bindValue(':startDate', $mission->getStartDate()->format('Y-m-d'));
+    if ($mission->getEndDate() == "") {
+        $query->bindValue(':endDate', null, PDO::PARAM_NULL);
+    } else {
+        $query->bindValue(':endDate', $mission->getEndDate()->format('Y-m-d'));
+    }
+
+    $query->bindValue(':type_id', $mission->getType_id(), PDO::PARAM_INT);
+    $query->bindValue(':status_id', $mission->getStatus_id(), PDO::PARAM_INT);
+    $query->bindValue(':speciality_id', $mission->getSpeciality_id(), PDO::PARAM_INT);
 
     $result = $query->execute();
     return $result;

@@ -17,8 +17,8 @@ function ajouterAgent() {
     agentContainer.insertAdjacentHTML('beforeend', agentHTML);
     }
 
-    function supprimerAgent(button) {
+function supprimerAgent(button) {
     
     let agentDiv = button.parentNode;
     agentDiv.parentNode.removeChild(agentDiv);
-    }
+}

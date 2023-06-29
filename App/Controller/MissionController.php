@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Mission;
 use App\Repository\AgentRepository;
+use App\Repository\ContactRepository;
+use App\Repository\HideOutRepository;
 use App\Repository\MissionAgentRepository;
 use App\Repository\MissionContactRepository;
 use App\Repository\MissionHideoutRepository;
@@ -11,6 +13,7 @@ use App\Repository\MissionRepository;
 use App\Repository\MissionTargetRepository;
 use App\Repository\SpecialityRepository;
 use App\Repository\StatusRepository;
+use App\Repository\TargetRepository;
 use App\Repository\TypeRepository;
 
 class MissionController extends Controller {
@@ -74,6 +77,14 @@ class MissionController extends Controller {
                 $missionRepository = new MissionRepository();
                 $mission = $missionRepository->findOneById($id);
 
+                $typeId =  $mission->getType_id();
+                $typeRepo = new TypeRepository();
+                $type = $typeRepo->findOneById($typeId);     
+                
+                $statusId =  $mission->getStatus_id();
+                $statusRepo = new StatusRepository();
+                $status = $statusRepo->findOneById($statusId); 
+
                 $specialityId = $mission->getSpeciality_id();
                 $specialityRepository = new SpecialityRepository();
                 $speciality = $specialityRepository->findOneById($specialityId);
@@ -92,6 +103,8 @@ class MissionController extends Controller {
 
                 $params = [
                     'mission' => $mission,
+                    'type' => $type,
+                    'status' => $status,
                     'speciality' => $speciality,
                     'agents' => $agents,
                     'contacts' => $contacts,
@@ -112,7 +125,35 @@ class MissionController extends Controller {
     }
 
     protected function delete() {
-        var_dump('On supprime la mission');
+        try {
+            if(isset($_GET['id'])) {
+
+                $id = (int)$_GET['id'];
+                
+                $missionAgentRepository = new MissionAgentRepository();
+                $missionAgentRepository->deleteByMissionId($id);
+
+                $missionContactRepository = new MissionContactRepository();
+                $missionContactRepository->deleteByMissionId($id);
+
+                $missionTargetRepository = new MissionTargetRepository();
+                $missionTargetRepository->deleteByMissionId($id);
+
+                $missionHideoutRepository = new MissionHideoutRepository();
+                $missionHideoutRepository->deleteByMissionId($id);
+
+                $missionRepository = new MissionRepository();
+                $missionRepository->delete($id);
+                $this->list();
+
+            } else {
+                throw new \Exception('id introuvable');
+            }
+        } catch (\Exception $e) {
+            $this->render('/templates/error.php', [
+                'error'=> $e->getMessage(),
+            ]);
+        }
     }
 
     protected function update() {
@@ -129,8 +170,12 @@ class MissionController extends Controller {
                 $mission->setDescription($_POST['description']);
                 $mission->setCodeName($_POST['codeName']);
                 $mission->setCountry($_POST['country']);
-                $mission->setStartDate($_POST['startDate']);
-                $mission->setEndDate($_POST['endDate']);
+                $mission->setStartDate(new \DateTime($_POST['startDate']));
+                
+                if ($_POST['endDate']){
+                    $mission->setEndDate(new \DateTime($_POST['endDate']));
+                }
+
                 $mission->setType_id($_POST['type']);
                 $mission->setStatus_id($_POST['status']);
                 $mission->setSpeciality_id($_POST['speciality']);
@@ -143,12 +188,42 @@ class MissionController extends Controller {
                 $createdMissionId = $createdMission->getId();
 
                 $selectedAgents = $_POST['agents'];
+                $selectedContacts = $_POST['contacts'];
+                $selectedTargets = $_POST['targets'];
+                $selectedHideouts = $_POST['hideouts'];
 
                 if(!is_null($selectedAgents)) {
 
                     foreach ($selectedAgents as $selectedAgent) {
                         $mission_agentRepo = new MissionAgentRepository();
                         $mission_agentRepo->create($createdMissionId, $selectedAgent);
+                    }
+                    
+                }
+
+                if(!is_null($selectedContacts)) {
+
+                    foreach ($selectedContacts as $selectedContact) {
+                        $mission_contactRepo = new MissionContactRepository();
+                        $mission_contactRepo->create($createdMissionId, $selectedContact);
+                    }
+                    
+                }
+
+                if(!is_null($selectedTargets)) {
+
+                    foreach ($selectedTargets as $selectedTarget) {
+                        $mission_targetRepo = new MissionTargetRepository();
+                        $mission_targetRepo->create($createdMissionId, $selectedTarget);
+                    }
+                    
+                }
+
+                if(!is_null($selectedHideouts)) {
+
+                    foreach ($selectedHideouts as $selectedHideout) {
+                        $mission_hideoutRepo = new MissionHideoutRepository();
+                        $mission_hideoutRepo->create($createdMissionId, $selectedHideout);
                     }
                     
                 }
@@ -163,17 +238,29 @@ class MissionController extends Controller {
                 $statusRepo = new StatusRepository();
                 $statuses = $statusRepo->findAll();
 
-                $specialityRepo = new SpecialityRepository;
+                $specialityRepo = new SpecialityRepository();
                 $specialities = $specialityRepo->findAll();
 
                 $agentRepo = new AgentRepository();
                 $agents = $agentRepo->findAll();
+
+                $contactRepo = new ContactRepository();
+                $contacts = $contactRepo->findAll();
+
+                $targetRepo = new TargetRepository();
+                $targets = $targetRepo->findAll();
+
+                $hideoutRepo = new HideOutRepository();
+                $hideouts = $hideoutRepo->findAll();
 
                 $params = [
                     'specialities' => $specialities,
                     'types' => $types,
                     'statuses' => $statuses,
                     'agents' => $agents,
+                    'contacts' => $contacts,
+                    'targets' => $targets,
+                    'hideouts' => $hideouts,
                 ];
                 
                 $this->render('/templates/missions/create.php', $params);

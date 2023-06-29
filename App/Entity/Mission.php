@@ -9,7 +9,7 @@ class Mission {
     protected string $codeName;
     protected string $country;
     protected \DateTime $startDate;
-    protected \DateTime $endDate;
+    protected ? \DateTime $endDate = null;
     protected int $type_id;
     protected int $status_id;
     protected int $speciality_id;
