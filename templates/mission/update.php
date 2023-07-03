@@ -69,7 +69,8 @@
             <?php endforeach; ?>
         </select>
     </div>
-    <?php foreach ($agentsInMission as $agentInMission) : ?>
+    <?php if($agentsInMission) : 
+    foreach ($agentsInMission as $agentInMission) : ?>
         <div class="form-group">
             <label for="agents[]">Agent :</label>
             <select name="agents[]" id="agents" class="form-control">
@@ -80,13 +81,24 @@
             </select>
         </div>
     <?php endforeach; ?>
-
+    <?php else : ?>
+        <div class="form-group">
+            <label for="agents[]">Agent :</label>
+            <select name="agents[]" id="agents" class="form-control">
+                <option value="">Sélectionnez un agent</option>
+                <?php foreach ($agents as $agent) : ?>
+                    <option value="<?php echo $agent->getId(); ?>"><?php echo $agent->getFirstName().' '.$agent->getLastName(); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    <?php endif; ?>
     <div id="agentContainer"></div>
     <br>
     <button type="button" class="btn btn-secondary" onclick="ajouterAgent()">Ajout d'un Agent</button>
     <br>
     <br>
-    <?php foreach ($contactsInMission as $contactInMission) : ?>
+    <?php if($contactsInMission) :
+    foreach ($contactsInMission as $contactInMission) : ?>
         <div class="form-group">
             <label for="contacts[]">Contact :</label>
             <select name="contacts[]" id="contacts" class="form-control">
@@ -97,12 +109,24 @@
             </select>
         </div>
     <?php endforeach; ?>
+    <?php else : ?>
+        <div class="form-group">
+            <label for="contacts[]">Contact :</label>
+            <select name="contacts[]" id="contacts" class="form-control">
+                <option value="">Sélectionnez un contact</option>
+                <?php foreach ($contacts as $contact) : ?>
+                    <option value="<?php echo $contact->getId(); ?>"><?php echo $contact->getFirstName().' '.$contact->getLastName(); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    <?php endif; ?>
     <div id="contactContainer"></div>
     <br>
     <button type="button" class="btn btn-secondary" onclick="ajouterContact()">Ajout d'un contact</button>
     <br>
     <br>
-    <?php foreach ($targetsInMission as $targetInMission) : ?>
+    <?php if($targetsInMission) :
+    foreach ($targetsInMission as $targetInMission) : ?>
         <div class="form-group">
             <label for="targets[]">Cible :</label>
             <select name="targets[]" id="targets" class="form-control">
@@ -113,12 +137,24 @@
             </select>
         </div>
     <?php endforeach; ?>
+    <?php else : ?>
+        <div class="form-group">
+            <label for="targets[]">Cible :</label>
+            <select name="targets[]" id="targets" class="form-control">
+                <option value="">Sélectionnez une cible</option>
+                <?php foreach ($targets as $target) : ?>
+                    <option value="<?php echo $target->getId(); ?>"><?php echo $target->getFirstName().' '.$target->getLastName(); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    <?php endif; ?>
     <div id="targetContainer"></div>
     <br>
     <button type="button" class="btn btn-secondary" onclick="ajouterTarget()">Ajout d'une cible</button>
     <br>
     <br>
-    <?php foreach ($hideoutsInMission as $hideoutInMission) : ?>
+    <?php if($targetsInMission) :
+    foreach ($hideoutsInMission as $hideoutInMission) : ?>
         <div class="form-group">
             <label for="hideouts[]">Planques :</label>
             <select name="hideouts[]" id="hideouts" class="form-control">
@@ -129,7 +165,17 @@
             </select>
         </div>
     <?php endforeach; ?>
-    
+    <?php else : ?>
+        <div class="form-group">
+            <label for="hideouts[]">Planque :</label>
+            <select name="hideouts[]" id="hideouts" class="form-control">
+                <option value="">Sélectionnez une planque</option>
+                <?php foreach ($hideouts as $hideout) : ?>
+                    <option value="<?php echo $hideout->getId(); ?>"><?php echo $hideout->getAddress().', '.$hideout->getCountry(); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    <?php endif; ?>
     <div id="hideoutContainer"></div>
     <br>
     <button type="button" class="btn btn-secondary" onclick="ajouterHideout()">Ajout d'une planque</button>
@@ -138,9 +184,9 @@
     <input type="submit" value="Modifier mission" class="btn btn-primary">
 </form>
 
-<script src="/kgb/assets/js/AddAgent.js"></script> 
-<script src="/kgb/assets/js/AddContact.js"></script>
-<script src="/kgb/assets/js/AddTarget.js"></script>
-<script src="/kgb/assets/js/AddHideout.js"></script>
+<script src="/kgb/assets/js/addAgent.js"></script> 
+<script src="/kgb/assets/js/addContact.js"></script>
+<script src="/kgb/assets/js/addTarget.js"></script>
+<script src="/kgb/assets/js/addHideout.js"></script>
 
 <?php require_once _ROOTPATH_.'/templates/footer.php'; ?>

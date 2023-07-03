@@ -114,7 +114,7 @@
     <br>
     <br>
     <div class="form-group">
-        <label for="hideouts[]">Planques :</label>
+        <label for="hideouts[]">Planque :</label>
         <select name="hideouts[]" id="hideouts" class="form-control">
             <option value="">Sélectionnez une planque</option>
             <?php foreach ($hideouts as $hideout) : ?>
@@ -130,9 +130,9 @@
     <input type="submit" value="Créer mission" class="btn btn-primary">
 </form>
 
-<script src="/kgb/assets/js/AddAgent.js"></script> 
-<script src="/kgb/assets/js/AddContact.js"></script>
-<script src="/kgb/assets/js/AddTarget.js"></script>
-<script src="/kgb/assets/js/AddHideout.js"></script>
+<script src="/kgb/assets/js/addAgent.js"></script> 
+<script src="/kgb/assets/js/addContact.js"></script>
+<script src="/kgb/assets/js/addTarget.js"></script>
+<script src="/kgb/assets/js/addHideout.js"></script>
 
 <?php require_once _ROOTPATH_.'/templates/footer.php'; ?>
