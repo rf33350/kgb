@@ -1,5 +1,7 @@
-<?php require_once _ROOTPATH_.'/templates/header.php'; 
-/* @var $cible \App\Entity\Target */
+<?php 
+    require_once _ROOTPATH_.'/templates/header.php'; 
+    require_once _ROOTPATH_.'/templates/redirect.php';
+    /* @var $planque \App\Entity\Hideout */
 ?>
 
             <div class="text-center">

@@ -114,7 +114,6 @@ class MissionRepository {
 
         $mysql = Mysql::getIsntance();
         $pdo = $mysql->getPDO();
-        
         $query = $pdo->prepare('UPDATE mission SET title = :title, description = :description, codeName = :codeName , country = :country, startDate = :startDate, endDate = :endDate, type_id = :type_id, status_id = :status_id, speciality_id = :speciality_id WHERE id = :id');
         
         $query->bindValue(':id', $mission->getId(), $pdo::PARAM_INT);
@@ -122,8 +121,12 @@ class MissionRepository {
         $query->bindValue(':description', $mission->getDescription(), $pdo::PARAM_STR);
         $query->bindValue(':codeName', $mission->getCodeName(), $pdo::PARAM_STR);
         $query->bindValue(':country', $mission->getCountry(), $pdo::PARAM_STR);
-        $query->bindValue(':startDate', $mission->getStartDate()->format('Y-m-d'), $pdo::PARAM_STR);
-        $query->bindValue(':endDate', $mission->getEndDate()->format('Y-m-d'), $pdo::PARAM_STR);
+        $query->bindValue(':startDate', $mission->getStartDate()->format('Y-m-d'));
+        if ($mission->getEndDate() == "") {
+            $query->bindValue(':endDate', null, PDO::PARAM_NULL);
+        } else {
+            $query->bindValue(':endDate', $mission->getEndDate()->format('Y-m-d'));
+        }
         $query->bindValue(':type_id', $mission->getType_id(), $pdo::PARAM_INT);
         $query->bindValue(':status_id', $mission->getStatus_id(), $pdo::PARAM_INT);
         $query->bindValue(':speciality_id', $mission->getSpeciality_id(), $pdo::PARAM_INT);
@@ -152,7 +155,6 @@ class MissionRepository {
     } else {
         $query->bindValue(':endDate', $mission->getEndDate()->format('Y-m-d'));
     }
-
     $query->bindValue(':type_id', $mission->getType_id(), PDO::PARAM_INT);
     $query->bindValue(':status_id', $mission->getStatus_id(), PDO::PARAM_INT);
     $query->bindValue(':speciality_id', $mission->getSpeciality_id(), PDO::PARAM_INT);

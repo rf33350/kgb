@@ -5,9 +5,6 @@ function ajouterAgent() {
         <label for="agents[]">Agent :</label>
         <select name="agents[]" id="agents" class="form-control">
             <option value="">Sélectionnez un agent</option>
-            <?php foreach ($agents as $agent) : ?>
-                <option value="<?php echo $agent->getId(); ?>"><?php echo $agent->getFirstName().' '.$agent->getLastName(); ?></option>
-            <?php endforeach; ?>
         </select>
         <button type="button" class="btn btn-danger" onclick="supprimerAgent(this)">Supprimer</button>
     </div>

@@ -1,4 +1,7 @@
-<?php require_once _ROOTPATH_.'/templates/header.php'; ?>
+<?php 
+    require_once _ROOTPATH_.'/templates/header.php'; 
+    require_once _ROOTPATH_.'/templates/redirect.php'; 
+?>
 
 <div class="text-center">
     <h1>Création d'une cible</h1>

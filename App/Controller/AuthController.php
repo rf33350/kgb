@@ -55,6 +55,7 @@ class AuthController extends Controller {
                         // Authentification réussie
                         session_start();
                         $_SESSION['user'] = $user;
+                        $_SESSION['role'] = $user->getRole();
                         
                         $missionRepository = new MissionRepository();
                         $missions = $missionRepository->findAll();

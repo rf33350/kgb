@@ -80,6 +80,15 @@ class MissionAgentRepository {
         $query->execute();
     }
 
+    function deleteByMissionIdAgentId($missionId, $agentId) {
+        $mysql = Mysql::getIsntance();
+        $pdo = $mysql->getPDO();
+        $query = $pdo->prepare('DELETE FROM mission_agent WHERE mission_id = :mission_id AND agent_id = :agent_id');
+        $query->bindValue(':mission_id', $missionId, $pdo::PARAM_INT);
+        $query->bindValue(':agent_id', $agentId, $pdo::PARAM_INT);
+        $query->execute();
+    }
+
     public function update(int $mission_id, int $old_agent_id, int $new_agent_id): bool
     {
 

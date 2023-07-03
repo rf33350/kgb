@@ -1,5 +1,5 @@
 <?php require_once _ROOTPATH_.'/templates/header.php'; 
-/* @var $cible \App\Entity\Mission */
+/* @var $mission \App\Entity\Mission */
 ?>
 
             <div class="text-center">
@@ -30,12 +30,18 @@
                 <?php } ;?>
                 <br>
                 <br>
-                <a href="index.php?controller=mission&action=update&id=<?=$mission->getId() ;?>" class="btn btn-warning">Modifier</a>
-                <br>
-                <br>
-                <a href="index.php?controller=mission&action=delete&id=<?=$mission->getId() ;?>" class="btn btn-danger">Supprimer</a>
-                <br>
-                <br>
+                <?php 
+                if (isset($_SESSION['user'])) {
+                    echo '
+                    <a href="index.php?controller=mission&action=update&id='.$mission->getId().'" class="btn btn-warning">Modifier</a>
+                    <br>
+                    <br>
+                    <a href="index.php?controller=mission&action=delete&id='.$mission->getId().'" class="btn btn-danger">Supprimer</a>
+                    <br>
+                    <br>
+                    ';
+                }
+                ?>
                 <a href="index.php?controller=mission&action=list" class="btn btn-primary">Retour à la liste</a>
             </div>
 

@@ -1,5 +1,6 @@
 <?php require_once _ROOTPATH_.'/templates/header.php'; 
-/* @var $cible \App\Entity\Target */
+require_once _ROOTPATH_.'/templates/redirect.php';
+/* @var $agent \App\Entity\Agent */
 ?>
 
             <div class="text-center">
