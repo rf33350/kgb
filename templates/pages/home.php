@@ -7,14 +7,14 @@
                 </div>
                 <div class="col-lg-6">
                     <h1 class="h1Color display-5 fw-bold text-body-emphasis lh-1 mb-3">Bienvenue sur le site du KGB</h1>
-                    <p class="lead">Sur ce site est listé nos opérations en cours. Si vous êtes habilités, vous pourrez également créer ou supprimer une mission.</p>
+                    <p class="lead">Sur ce site est listé nos opérations en cours. Si vous êtes habilité, vous pourrez également gérer les opérations. Vous pourrez également avoir accès au listing de nos agents, contacts, cibles et planques.</p>
                     
                 </div>
             </div>
 
             <div class="text-center">
                 <h2>
-                    Nos missions en cours
+                    Les missions
                 </h2>
             </div>
 

@@ -2,7 +2,7 @@
 
             <div class="text-center">
                 <h1>
-                    Nos missions en cours
+                    Les missions répertoriées
                 </h1>
             </div>
 
