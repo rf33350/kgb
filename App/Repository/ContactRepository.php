@@ -66,7 +66,6 @@ class ContactRepository {
     $query->bindValue(':id', $id, \PDO::PARAM_INT);
     $result = $query->execute();
     return $result;
-
     }
 
     public function update(Contact $contact): bool
@@ -103,6 +102,6 @@ class ContactRepository {
     $query->bindValue(':nationality', $contact->getNationality());
 
     $query->execute();
-}
+    }
 
 }

@@ -5,7 +5,7 @@
                 <li class="nav-item"><a href="index.php?controller=page&action=home" class="nav-link px-2 text-body-secondary">Accueil</a></li>
                 <li class="nav-item"><a href="index.php?controller=mission&action=list" class="nav-link px-2 text-body-secondary">Missions</a></li>
                 <?php 
-                if (isset($_SESSION['user'])) {
+                if (isset($_SESSION['user']) && $_SESSION['role'] == 'admin') {
                     echo '
                     <li><a href="index.php?controller=target&action=list" class="nav-link px-2 text-body-secondary">Cibles</a></li>
                     <li><a href="index.php?controller=contact&action=list" class="nav-link px-2 text-body-secondary">Contacts</a></li>

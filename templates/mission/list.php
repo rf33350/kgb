@@ -24,7 +24,7 @@
             </div>
             <br>
             <?php 
-                if (isset($_SESSION['user'])) {
+                if (isset($_SESSION['user']) && $_SESSION['role'] == 'admin') {
                     echo '
                     <div class="text-center">
                     <a href="index.php?controller=mission&action=create" class="btn btn-secondary">Créer une nouvelle mission</a>

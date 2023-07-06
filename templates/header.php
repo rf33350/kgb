@@ -12,9 +12,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link href="assets/css/kgbstyle.css" rel="stylesheet">
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
     <title>KGB</title>
 </head>
 <body>
@@ -30,7 +28,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <li><a href="index.php?controller=page&action=home" class="nav-link px-2">Accueil</a></li>
             <li><a href="index.php?controller=mission&action=list" class="nav-link px-2">Missions</a></li>
             <?php 
-                if (isset($_SESSION['user'])) {
+                if (isset($_SESSION['user']) && $_SESSION['role'] == 'admin') {
                     echo '
                     <li><a href="index.php?controller=target&action=list" class="nav-link px-2">Cibles</a></li>
                     <li><a href="index.php?controller=contact&action=list" class="nav-link px-2">Contacts</a></li>
@@ -53,5 +51,4 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
         </header>
         
-
         <main>
